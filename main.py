@@ -1,7 +1,9 @@
-import pyautogui
-import subprocess
+import time
 
-subprocess.Popen(["firefox"])
-pyautogui.hotkey("ctrl", "l")
-pyautogui.write("https://google.com")
-pyautogui.press("enter")
+from src.controllers.browser import Browser
+
+browser_handler = Browser(browser="firefox") 
+
+browser_handler.open()
+time.sleep(3)
+browser_handler.close()
