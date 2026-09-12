@@ -2,12 +2,14 @@ import platform
 import subprocess
 import pyautogui
 
+from config import Config
+
 class Browser:
 
     def __init__(self, browser):
         self.browser = browser
         self.process = None
-        self.system = platform.system()
+        self.system = Config.system
         # self.firefox_pid = None ?
 
     # Browser
