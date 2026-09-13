@@ -5,7 +5,7 @@ import psutil
 import win32con
 import win32gui
 import win32process
-
+import pyautogui
 from config import Config
 
 class Browser:
@@ -37,7 +37,6 @@ class Browser:
     def open(self):
         if self.system == "Linux":
             self.process = subprocess.Popen([self.browser])
-            
         elif self.system == "Windows":
             old_windows = self._get_firefox_windows()
             self.process = subprocess.Popen([self.browser])
@@ -48,10 +47,9 @@ class Browser:
                 if new_windows:
                     self.hwnd = new_windows.pop()
                     return
-
             raise RuntimeError("Не удалось найти новое окно Firefox")
-        
-        
+
+
     def close(self):
         if self.system == "Linux":
             # способ закрытия для Linux
@@ -76,6 +74,26 @@ class Browser:
         elif self.system == "Darwin":
             # способ закрытия для macOS
             pass
+    
+    def minimize(self):
+        if self.hwnd is None:
+            return
+        if win32gui.IsWindow(self.hwnd):
+            win32gui.ShowWindow(self.hwnd, win32con.SW_SHOWMINIMIZED)
+            
+    def normalize(self):
+        if self.hwnd is None:
+            return
+        if not win32gui.IsWindow(self.hwnd):
+            return
+        
+        win32gui.ShowWindow(self.hwnd, win32con.SW_RESTORE)
+        win32gui.SetForegroundWindow(self.hwnd)
+        
+    def new_tab(self):
+        if self.hwnd is None:
+            return
+        pyautogui.hotkey('ctrl', 't')
 
     #page
     # def search(self, search_address):
