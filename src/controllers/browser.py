@@ -7,7 +7,8 @@ import win32gui
 import win32process
 import pyautogui
 from config import Config
-
+from pywinauto import Desktop
+import pyperclip
 class Browser:
 
     def __init__(self, browser):
@@ -80,6 +81,7 @@ class Browser:
             return
         if win32gui.IsWindow(self.hwnd):
             win32gui.ShowWindow(self.hwnd, win32con.SW_SHOWMINIMIZED)
+            time.sleep(0.1)
             
     def normalize(self):
         if self.hwnd is None:
@@ -87,7 +89,7 @@ class Browser:
         if not win32gui.IsWindow(self.hwnd):
             return
         
-        win32gui.ShowWindow(self.hwnd, win32con.SW_RESTORE)
+        win32gui.ShowWindow(self.hwnd, win32con.SW_SHOWMAXIMIZED)
         win32gui.SetForegroundWindow(self.hwnd)
         
     def new_tab(self):
@@ -96,7 +98,28 @@ class Browser:
         pyautogui.hotkey('ctrl', 't')
 
     #page
-    # def search(self, search_address):
-    #     pyautogui.hotkey("ctrl", "l")
-    #     pyautogui.write(search_address)
-    #     pyautogui.press("enter")
+    def search(self, search_address):
+        pyperclip.copy(search_address)        
+        pyautogui.hotkey("ctrl", "l")
+        pyautogui.hotkey("ctrl", "v")
+        pyautogui.press("enter")
+    
+    def click_on_first_sites(self):
+        firefox = Desktop(backend="uia").window(handle=self.hwnd)
+
+        documents = firefox.descendants(control_type="Document")
+        if not documents:
+            return
+
+        document = documents[0]
+
+        links = document.descendants(control_type="Hyperlink")
+
+        for link in links:
+            rect = link.rectangle()
+
+            if rect.top < 250:
+                continue
+
+            link.click_input()
+            return
