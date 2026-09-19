@@ -9,8 +9,8 @@ import pyautogui
 from config import Config
 from pywinauto import Desktop
 import pyperclip
-class Browser:
 
+class Browser:
     def __init__(self, browser):
         self.browser = browser
         self.process = None
