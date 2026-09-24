@@ -10,6 +10,6 @@ youtube_handler = YouTube
 browser_handler.open()
 browser_handler.search(search_address="youtube.com")
 time.sleep(5)
-youtube_handler.pause()
+youtube_handler.next_video()
 time.sleep(5)
 browser_handler.close()

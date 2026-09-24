@@ -36,9 +36,7 @@ class Browser:
 
     # Browser
     def open(self):
-        if self.system == "Linux":
-            self.process = subprocess.Popen([self.browser])
-        elif self.system == "Windows":
+        if self.system == "Windows":
             old_windows = self._get_firefox_windows()
             self.process = subprocess.Popen([self.browser])
             for _ in range(50):
@@ -52,11 +50,7 @@ class Browser:
 
 
     def close(self):
-        if self.system == "Linux":
-            # способ закрытия для Linux
-            subprocess.run(["kill", str(self.pid)])
-
-        elif self.system == "Windows":
+        if self.system == "Windows":
             # способ закрытия для Windows
             if self.hwnd is None:
                 return
@@ -123,3 +117,6 @@ class Browser:
 
             link.click_input()
             return
+    
+    def close_page(self):
+        pyautogui.hotkey("ctrl", "w")

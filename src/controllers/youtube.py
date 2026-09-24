@@ -9,12 +9,21 @@ PAUSE_BUTTON = 'video-stream html5-main-video'
 COPU_LINK = 'ytp-menuitem'
 
 class YouTube:
-    # def __init__(self):
-    #     self.browser = webdriver.Firefox()
-    #     self.video_link = None
-        
-    def next_video(self):
-        pyautogui.hotkey("esc")
+
+    def next_video():
+        pyautogui.hotkey("shift", "n")
+    
+    def previous_video():
+        pyautogui.hotkey("shift", "p")
     
     def pause():
-        pyautogui.leftClick()
+        pyautogui.hotkey("k")
+    
+    def rewind_10_seconds_forward():
+        pyautogui.hotkey("l")
+        
+    def rewind_10_seconds():
+        pyautogui.hotkey("j")
+    
+    def mute():
+        pyautogui.hotkey("m")
