@@ -36,17 +36,16 @@ class Browser:
 
     # Browser
     def open(self):
-        if self.system == "Windows":
-            old_windows = self._get_firefox_windows()
-            self.process = subprocess.Popen([self.browser])
-            for _ in range(50):
-                time.sleep(0.1)
-                current_windows = self._get_firefox_windows()
-                new_windows = current_windows - old_windows
-                if new_windows:
-                    self.hwnd = new_windows.pop()
-                    return
-            raise RuntimeError("Не удалось найти новое окно Firefox")
+        old_windows = self._get_firefox_windows()
+        self.process = subprocess.Popen([self.browser])
+        for _ in range(50):
+            time.sleep(0.1)
+            current_windows = self._get_firefox_windows()
+            new_windows = current_windows - old_windows
+            if new_windows:
+                self.hwnd = new_windows.pop()
+                return
+        raise RuntimeError("Не удалось найти новое окно Firefox")
 
 
     def close(self):
@@ -120,3 +119,23 @@ class Browser:
     
     def close_page(self):
         pyautogui.hotkey("ctrl", "w")
+        
+    #base
+    def can_handel(self, command: str):
+        return command.startswith("браузер")
+        
+    #paraser
+    def execute(self, command):
+        if "браузера" and "закрой" and "страницу"in command:
+            self.close_page()
+        elif "браузера" and "откройся" in command:
+            self.open()
+        elif "браузера" and "закройся" in command:
+            self.close()
+        elif "браузера" and "свернись" in command:
+            self.minimize()
+        elif "браузера" and "развернись" in command:
+            self.normalize()
+        elif "браузера" and "открой" and "новую" and "вкладку" or "страницу" in command:
+            self.new_tab()
+        

@@ -27,3 +27,8 @@ class YouTube:
     
     def mute():
         pyautogui.hotkey("m")
+        
+    #parser
+    def execute(self, command):
+        if command:
+            pass
