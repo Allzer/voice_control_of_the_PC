@@ -123,22 +123,26 @@ class Browser:
     #base
     def can_handel(self, command: str):
         return command.startswith("браузер")
+    
         
     #paraser
     def execute(self, command: str):
-        if "браузер" and "закрой" and "вкладку"in command:
+        if all(word in command for word in ("закрой", "вкладку")): #"браузер" and 
             self.close_page()
-        if "браузер" and "откройся" in command:
+        if "откройся" in command: #"браузер" and 
             self.open()
-        if "браузер" and "закройся" in command:
+        if "закройся" in command: #"браузер" and 
             self.close()
-        if "браузер" and "сверни" in command:
+        if "сверни" in command: #"браузер" and 
             self.minimize()
-        if "браузер" and "разверни" in command:
+        if "разверни" in command: #"браузер" and 
             self.normalize()
-        if "браузер" and "открой" and "новую" and "вкладку" in command:
+        if all(word in command for word in ("открой", "новую", "вкладку")): #"браузер" and 
             self.new_tab()
-        if "браузер" and "поиск" in command:
+        if "поиск" in command: # "браузер" and
+            print('111')
             search_request = command.replace("браузер", "").replace("поиск", "")
             self.search(search_address=search_request)
+        if all(word in command for word in ("открой", "первую", "страницу")): #"браузер" and 
+            self.click_on_first_sites()
         
