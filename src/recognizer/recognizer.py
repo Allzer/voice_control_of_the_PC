@@ -1,20 +1,20 @@
-import datetime
-import os
-import speech_recognition
-
+import speech_recognition as sr
 
 class Recognizer:
-    sr = speech_recognition.Recognizer()
+    def __init__(self):
+        self.engine = sr.Recognizer()
+    
+    def calibrate(self, mic):
+        self.engine.adjust_for_ambient_noise(
+            source=mic
+        )
         
-    with speech_recognition.Microphone() as mic:
-        sr.adjust_for_ambient_noise(source=mic, duration=0.5)
-
-        while True:
-            try:
-                audio = sr.listen(source=mic)
-                command = sr.recognize_google(audio_data=audio, language='ru-RU').lower()
-                print(command)
-                if command == "компьютер стоп":
-                    break
-            except Exception as e:
-                print(e)
+    def recognize(self, mic):
+        audio = self.engine.listen(source=mic)
+        try:
+            return self.engine.recognize_google(audio_data=audio, language='ru-RU').lower()
+        except sr.UnknownValueError:
+            return None
+        except sr.RequestError as e:
+            print("Ошибка распознования: ", e)
+            return None

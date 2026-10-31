@@ -2,7 +2,7 @@
 from src.controllers.base_controller import BaseController
 
 class CommandRouter():
-    def __init__(self, controllers: BaseController[list]):
+    def __init__(self, controllers: list[BaseController]):
         self.controlelers = controllers
     
     def dispatch(self, command):

@@ -126,16 +126,16 @@ class Browser:
         
     #paraser
     def execute(self, command):
-        if "браузера" and "закрой" and "страницу"in command:
+        if "браузер" and "закрой" and "вкладку"in command:
             self.close_page()
-        elif "браузера" and "откройся" in command:
+        if "браузер" and "откройся" in command:
             self.open()
-        elif "браузера" and "закройся" in command:
+        if "браузер" and "закройся" in command:
             self.close()
-        elif "браузера" and "свернись" in command:
+        if "браузер" and "сверни" in command:
             self.minimize()
-        elif "браузера" and "развернись" in command:
+        if "браузер" and "разверни" in command:
             self.normalize()
-        elif "браузера" and "открой" and "новую" and "вкладку" or "страницу" in command:
+        if "браузер" and "открой" and "новую" and "вкладку" in command:
             self.new_tab()
         
