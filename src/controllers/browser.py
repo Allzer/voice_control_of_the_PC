@@ -131,6 +131,8 @@ class Browser:
             self.close_page()
         if "откройся" in command: #"браузер" and 
             self.open()
+        if "открой" in command: #"браузер" and 
+            self.open()
         if "закройся" in command: #"браузер" and 
             self.close()
         if "сверни" in command: #"браузер" and 

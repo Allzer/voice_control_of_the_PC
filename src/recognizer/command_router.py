@@ -6,7 +6,7 @@ class CommandRouter():
         self.controllelers = controllers
     
     def dispatch(self, command: str):
-        
+        #TODO сделать вычленение нужного
         controller = self.controllelers.get(command.split()[0])
         if controller is not None:
             if controller.can_handel(command=command):

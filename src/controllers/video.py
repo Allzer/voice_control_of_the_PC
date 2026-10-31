@@ -29,9 +29,11 @@ class Video:
     def turn_down_volume(self):
         pyautogui.hotkey("down")
         
-    def mute(self):
+    def click_mute(self):
         pyautogui.hotkey("m")
-    
+
+    def click_full_size(self):
+        pyautogui.hotkey("fN")
     #base
     def can_handel(self, command: str):
         return command.startswith("видео")
@@ -53,9 +55,13 @@ class Video:
             self.rewind_5_seconds_forward()
         if "пауза" in command:
             self.pause()
-        if "mute" or "мьют" in command:
-            self.mute()
+        if "мьют" in command:
+            self.click_mute()
+        if "mute" in command:
+            self.click_mute()
         if "громче" in command:
             self.turn_up_volume()
         if "тише" in command:
             self.turn_down_volume()
+        if all(word in command for word in ("на", "весь", "экран")):
+            self.click_full_size()
