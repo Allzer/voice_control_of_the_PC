@@ -125,7 +125,7 @@ class Browser:
         return command.startswith("браузер")
         
     #paraser
-    def execute(self, command):
+    def execute(self, command: str):
         if "браузер" and "закрой" and "вкладку"in command:
             self.close_page()
         if "браузер" and "откройся" in command:
@@ -138,4 +138,7 @@ class Browser:
             self.normalize()
         if "браузер" and "открой" and "новую" and "вкладку" in command:
             self.new_tab()
+        if "браузер" and "поиск" in command:
+            search_request = command.replace("браузер", "").replace("поиск", "")
+            self.search(search_address=search_request)
         
