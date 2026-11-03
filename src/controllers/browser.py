@@ -32,11 +32,40 @@ class Browser:
                 pass
         win32gui.EnumWindows(callback, None)
         return windows
- 
+    
+    def attach(self):
+        windows = self._get_firefox_windows()
+        
+        if not windows:
+            raise RuntimeError("Нет открытых окон")
+        
+        active_hwnd = win32gui.GetForegroundWindow()
+        
+        if active_hwnd in windows:
+            self.hwnd = active_hwnd
+        else:
+            self.hwnd = next(iter(windows))
+        
+        self.process = None
 
     # Browser
     def open(self):
-        old_windows = self._get_firefox_windows()
+        windows = self._get_firefox_windows()
+        
+        if windows:
+            active_hwnd = win32gui.GetForegroundWindow()
+            
+            self.hwnd = (
+                active_hwnd
+                if active_hwnd in windows
+                else next(iter(windows))
+            )
+            
+            self.process = None
+            return
+        
+        old_windows = windows
+        
         self.process = subprocess.Popen([self.browser])
         for _ in range(50):
             time.sleep(0.1)
@@ -127,24 +156,26 @@ class Browser:
         
     #paraser
     def execute(self, command: str):
-        if all(word in command for word in ("закрой", "вкладку")): #"браузер" and 
+        if all(word in command for word in ("закрой", "вкладку")):
             self.close_page()
-        if "откройся" in command: #"браузер" and 
+        if "откройся" in command:
             self.open()
-        if "открой" in command: #"браузер" and 
+        if "открой" in command:
             self.open()
-        if "закройся" in command: #"браузер" and 
+        if "закройся" in command:
             self.close()
-        if "сверни" in command: #"браузер" and 
+        if "сверни" in command:
             self.minimize()
-        if "разверни" in command: #"браузер" and 
+        if "разверни" in command:
             self.normalize()
-        if all(word in command for word in ("открой", "новую", "вкладку")): #"браузер" and 
+        if all(word in command for word in ("открой", "новую", "вкладку")):
             self.new_tab()
         if "поиск" in command: # "браузер" and
-            print('111')
             search_request = command.replace("браузер", "").replace("поиск", "")
             self.search(search_address=search_request)
-        if all(word in command for word in ("открой", "первую", "страницу")): #"браузер" and 
+        if all(word in command for word in ("открой", "первую", "страницу")):
             self.click_on_first_sites()
-        
+        if "инит" in command:
+            self.attach()
+        if "init" in command:
+            self.attach()
