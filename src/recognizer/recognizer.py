@@ -8,7 +8,7 @@ class Recognizer:
         self.engine.adjust_for_ambient_noise(
             source=mic
         )
-        
+
     def recognize(self, mic):
         audio = self.engine.listen(source=mic)
         try:
